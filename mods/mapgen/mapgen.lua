@@ -1324,7 +1324,28 @@
 		heat_point = 50,
 		humidity_point = 50,
 	})
-
+	
+	-- Volcano
+	--[[
+	minetest.register_biome({
+		name = "volcanic",
+		node_dust = "default:obsidian",
+		node_top = "default:stone",
+		depth_top = 5,
+		--node_filler = "",
+		--depth_filler = "",
+		--node_stone = "",
+		node_water_top = "default:lava_source",
+		depth_water_top = 5,
+		node_water = "default:lava_source",
+		node_river_water = "default:lava_flowing",
+		node_riverbed = "default:obsidian",
+		depth_riverbed = 4,
+		y_min = 500,
+		y_max = 31000,
+		heat_point = 90,
+		humidity_point = 50,
+	})--]]
 
 --
 -- Register decorations

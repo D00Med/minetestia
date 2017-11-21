@@ -1,3 +1,122 @@
+local textures = {}
+local name, description = {}
+minetest.register_node("decoblocks:"..name.."_chair", {
+	description = description.." Chair",
+	tiles = {textures},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 1},
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.3125, -0.5, 0.1875, -0.1875, 0.5, 0.3125},
+			{0.1875, -0.5, 0.1875, 0.3125, 0.5, 0.3125},
+			{0.1875, -0.5, -0.3125, 0.3125, -0.0625, -0.1875},
+			{-0.3125, -0.5, -0.3125, -0.1875, -0.0625, -0.1875},
+			{-0.3125, -0.125, -0.3125, 0.3125, 0, 0.3125},
+			{-0.1875, 0.3125, 0.1875, 0.1875, 0.4375, 0.3125},
+			{-0.3125, 0.125, 0.1875, 0.3125, 0.1875, 0.3125},
+			{0.23, -0.4375, -0.3125, 0.29, -0.375, 0.3125},
+			{-0.29, -0.4375, -0.3125, -0.23, -0.375, 0.3125},
+			{-0.29, -0.4375, -0.0315, 0.29, -0.375, 0.031},
+		},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.3125, -0.5, -0.3125, 0.3125, 0.5, 0.3125},
+	},
+	collision_box={
+		type="fixed",
+		fixed={
+			{-0.3125, -0.5, -0.3125, 0.3125, -0.0625, 0.3125},
+			{-0.3125, -0.5, 0.1875, -0.1875, 0.5, 0.3125},
+		},
+	},
+	groups = node_groups,
+	on_rightclick = function(pos, node, player, itemstack, pointed_thing)
+		local v=player:get_player_velocity()
+		if v.x~=0 or v.y~=0 or v.z~=0 then return end
+		player:setpos({x=pos.x,y=pos.y,z=pos.z})
+		local name=player:get_player_name()
+		local nname=minetest.get_node(pos).name
+		if default.player_attached[name] then
+			player:set_physics_override(1, 1, 1)
+			minetest.after(0.3, function(player,name)
+				player:set_eye_offset({x=0,y=0,z=0}, {x=0,y=0,z=0})
+				default.player_attached[name]=false
+				default.player_set_animation(player, "stand",30)
+			end,player,name)
+		else
+			player:set_physics_override(0, 0, 0)
+			minetest.after(0.3, function(player,name)
+				player:set_eye_offset({x=0,y=-7,z=2}, {x=0,y=0,z=0})
+				default.player_attached[name]=true
+				default.player_set_animation(player, "sit",30)
+			end,player,name)
+			minetest.after(0.3, function(player,name)
+				player:set_eye_offset({x=0,y=-7,z=2}, {x=0,y=0,z=0})
+				default.player_attached[name]=true
+				default.player_set_animation(player, "sit",30)
+			end,player,name)
+		end
+	end,
+	can_dig = function(pos, player)
+		for _, ob in ipairs(minetest.get_objects_inside_radius(pos,1)) do
+			return false
+		end
+		return true
+	end,
+	on_construct=function(pos)
+		local meta=minetest.get_meta(pos)
+		minetest.get_node_timer(pos):start(1)
+		meta:set_int("n",20)
+		meta:set_int("y",0)
+	end,
+	after_place_node = function(pos, placer)
+		minetest.get_meta(pos):set_int("placed",1)
+	end
+})
+minetest.register_craft({
+	output = "decoblocks:"..name.."_chair",
+	recipe = {
+		{"", "", "group:stick"},
+		{"group:wood", "group:wood", "group:wood"},
+		{"group:stick", "", "group:stick"}
+	}
+})
+minetest.register_node("decoblocks:"..name.."_table", {
+	description = description.." Table",
+	tiles = {textures},
+	drawtype = "nodebox",
+	sunlight_propagates = true,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.4,-0.5,-0.4, -0.3,0.4,-0.3},
+			{0.3,-0.5,-0.4, 0.4,0.4,-0.3},
+			{-0.4,-0.5,0.3, -0.3,0.4,0.4},
+			{0.3,-0.5,0.3, 0.4,0.4,0.4},
+			{-0.5,0.4,-0.5, 0.5,0.5,0.5},
+			{-0.4,-0.2,-0.3, -0.3,-0.1,0.3},
+			{0.3,-0.2,-0.4, 0.4,-0.1,0.3},
+			{-0.3,-0.2,-0.4, 0.4,-0.1,-0.3},
+			{-0.3,-0.2,0.3, 0.3,-0.1,0.4},
+		},
+	},
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 1}
+})
+minetest.register_craft({
+	output = "decoblocks:"..name.."_table",
+	recipe = {
+		{"group:wood", "group:wood", "group:wood"},
+		{"group:stick", "", "group:stick"},
+		{"group:stick", "", "group:stick"}
+	}
+})
 minetest.register_node("decoblocks:bamboo_fence", {
 	description = "Bamboo Fence",
 	tiles = {
