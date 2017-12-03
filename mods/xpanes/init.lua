@@ -101,6 +101,7 @@ function xpanes.register_pane(name, def)
 		wield_image = def.wield_image,
 		paramtype2 = "facedir",
 		tiles = {def.textures[3], def.textures[3], def.textures[1]},
+		use_texture_alpha = true,
 		groups = flatgroups,
 		drop = "xpanes:" .. name .. "_flat",
 		sounds = def.sounds,
@@ -125,6 +126,7 @@ function xpanes.register_pane(name, def)
 		sunlight_propagates = true,
 		description = def.description,
 		tiles = {def.textures[3], def.textures[3], def.textures[1]},
+		use_texture_alpha = true,
 		groups = groups,
 		drop = "xpanes:" .. name .. "_flat",
 		sounds = def.sounds,
@@ -195,6 +197,21 @@ xpanes.register_pane("lattice", {
 		{"default:stick", "", "default:stick"},
 		{"", "default:stick", ""},
 		{"default:stick", "", "default:stick"}
+	}
+})
+
+xpanes.register_pane("ice", {
+	description = "ice pane",
+	textures = {"xpanes_ice.png","xpanes_ice_half.png","xpanes_ice_half.png"},
+	use_texture_alpha = true,
+	inventory_image = "xpanes_ice.png",
+	wield_image = "xpanes_ice.png",
+	sounds = default.node_sound_glass_defaults(),
+	groups = {snappy=2, cracky=3, oddly_breakable_by_hand=3},
+	recipe = {
+		{"default:ice", "default:ice", "default:ice"},
+		{"default:ice", "default:ice", "default:ice"}
+
 	}
 })
 
