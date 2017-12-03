@@ -1767,11 +1767,21 @@ tiles = {
 	paramtype = "light",
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 1, 0.3}
+		fixed = {
+			{-0.3125, -0.5, -0.4375, 0.3125, -0.1875, 0.4375}, -- NodeBox1
+			{-0.25, -0.25, -0.375, 0.25, -0.125, 0.375}, -- NodeBox2
+			{-0.125, -0.1875, -0.25, 0.125, 0, 0.25}, -- NodeBox3
+			{-0.3125, 0, -0.5, 0.3125, 0.5, 0.5}, -- NodeBox4
+		}
 	},
 	collision_box = {
 		type = "fixed",
-		fixed = {-0.3, -0.1, -0.3, 0.3, 1, 0.3}
+		fixed = {
+			{-0.3125, -0.5, -0.4375, 0.3125, -0.1875, 0.4375}, -- NodeBox1
+			{-0.25, -0.25, -0.375, 0.25, -0.125, 0.375}, -- NodeBox2
+			{-0.125, -0.1875, -0.25, 0.125, 0, 0.25}, -- NodeBox3
+			{-0.3125, 0, -0.5, 0.3125, 0.5, 0.5}, -- NodeBox4
+		}
 	},
 	groups = {cracky = 1},
 	sounds = default.node_sound_metal_defaults(),
@@ -2081,3 +2091,143 @@ minetest.register_node("decoblocks:sandstone_pillar_base", {
 	},
 	on_place = minetest.rotate_node
 })
+
+minetest.register_node("decoblocks:snow_bricks", {
+	description = "Snow Bricks",
+	tiles = {"decoblocks_snow_bricks.png"},
+	groups = {crumbly = 3, puts_out_fire = 1, cools_lava = 1, snowy = 1},
+})
+
+
+minetest.register_node("decoblocks:bear_rug", {
+	description = "Bear Rug",
+	drawtype = "mesh",
+	paramtype2 = "facedir",
+	mesh = "bear_rug.obj",
+	tiles = {
+		"mobs_bear.png",
+	},
+	visual_scale = 0.5,
+	wield_scale = {x=0.5, y=0.5, z=0.5},
+	paramtype = "light",
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.4, 0.5}
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0.-49, 0.5}
+	},
+	groups = {cracky = 2, oddly_breakable_by_hand = 1},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("decoblocks:polar_bear_rug", {
+	description = "Polar Bear Rug",
+	drawtype = "mesh",
+	paramtype2 = "facedir",
+	mesh = "bear_rug.obj",
+	tiles = {
+		"mobs_polar_bear.png",
+	},
+	visual_scale = 0.5,
+	wield_scale = {x=0.5, y=0.5, z=0.5},
+	paramtype = "light",
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.4, 0.5}
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, 0.-49, 0.5}
+	},
+	groups = {cracky = 2, oddly_breakable_by_hand = 1},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("decoblocks:rusty_steel_plating", {
+	description = "Rusty Plating",
+	tiles = {"decoblocks_rusty_steel_plating.png"},
+	groups = {cracky = 1, level = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("decoblocks:broken_glass", {
+	description = "Broken Glass",
+	drawtype = "glasslike_framed_optional",
+	tiles = {"decoblocks_broken_glass.png", "decoblocks_broken_glass_detail.png"},
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("decoblocks:plank_walkway", {
+	description = "Wood Plank Walkway",
+	tiles = {
+		"decoblocks_wood_planks.png",
+		"decoblocks_wood_planks.png",
+		"default_wood.png",
+	},
+	drawtype = "nodebox",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, 0.4375, -0.5, -0.3125, 0.5, 0.5}, -- NodeBox1
+			{-0.25, 0.4375, -0.4375, -0.0625, 0.5, 0.5}, -- NodeBox2
+			{0, 0.4375, -0.5, 0.1875, 0.5, 0.5}, -- NodeBox3
+			{0.25, 0.4375, -0.375, 0.4375, 0.5, 0.5}, -- NodeBox4
+		}
+	},
+	sounds = default.node_sound_wood_defaults(),
+	groups = {choppy=1,}
+})
+
+--stained glass
+
+local colours = {
+{"red", "Red"},
+{"green", "Green"},
+{"blue", "Blue"},
+{"yellow", "Yellow"},
+{"cyan", "Cyan"},
+{"brown", "Brown"},
+{"orange", "Orange"},
+{"purple", "Purple"},
+{"magenta", "Magenta"},
+{"darkgreen", "Dark Green"},
+{"darkgrey", "Dark Grey"},
+{"grey", "Grey"},
+{"white", "White"},
+{"black", "Black"},
+{"pink", "Pink"},
+}
+
+for _, row in ipairs(colours) do
+local colour = row[1]
+local desc = row[2]
+minetest.register_node("decoblocks:"..colour.."_glass", {
+	description = ""..desc.." Stained Glass",
+	drawtype = "glasslike",
+	tiles = {"decoblocks_"..colour.."_glass.png"},
+	use_texture_alpha = true,
+	sounds = default.node_sound_glass_defaults(),
+	groups = {cracky=1, oddly_breakable_by_hand=3, snappy=2}
+})
+xpanes.register_pane(""..colour.."_glass", {
+	description = ""..desc.." Stained Glass Pane",
+	textures = {"decoblocks_"..colour.."_glass.png","decoblocks_"..colour.."_glass.png","decoblocks_"..colour.."_glass.png"},
+	use_texture_alpha = true,
+	inventory_image = "decoblocks_"..colour.."_glass.png",
+	wield_image = "decoblocks_"..colour.."_glass.png",
+	sounds = default.node_sound_glass_defaults(),
+	groups = {snappy=2, cracky=3, oddly_breakable_by_hand=3},
+	recipe = {
+		{"", "dye:"..colour, ""},
+		{"", "xpanes:pane", ""}
+	}
+})
+end

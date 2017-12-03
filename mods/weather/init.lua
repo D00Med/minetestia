@@ -35,11 +35,11 @@ local apply_weather = function(player, pos, weather_type)
 		if minetest.get_timeofday()*24000 >= 6000 and minetest.get_timeofday()*24000 <= 19000 then
 		player:set_sky({r=208, g=223, b=238}, "plain", nil, true)
 		end
-		for i=1,12 do
+		for i=1,24 do
 		minetest.add_particle({
 			pos = {x=pos.x+math.random(-10,10), y=pos.y+math.random(12,17), z=pos.z+math.random(-10,10)},
-			velocity = {x=math.random(-5,5)/10, y=math.random(-4,-6), z=math.random(-5,5)/10},
-			acceleration = {x=math.random(-1,1)/10, y=math.random(-5,-10)/10, z=math.random(-1,1)/10},
+			velocity = {x=math.random(-5,5)/10, y=math.random(-6,-4), z=math.random(-5,5)/10},
+			acceleration = {x=math.random(-1,1)/10, y=math.random(-10,-5)/10, z=math.random(-1,1)/10},
 			expirationtime = 3,
 			size = math.random(3,5),
 			collisiondetection = true,
@@ -59,10 +59,10 @@ local apply_weather = function(player, pos, weather_type)
 		if minetest.get_timeofday()*24000 >= 6000 and minetest.get_timeofday()*24000 <= 19000 then
 		player:set_sky({r=177, g=177, b=177}, "plain", nil, true)
 		end
-		for i=1,12 do
+		for i=1,24 do
 		minetest.add_particle({
 			pos = {x=pos.x+math.random(-10,10), y=pos.y+math.random(12,17), z=pos.z+math.random(-10,10)},
-			velocity = {x=0, y=math.random(-15,-20), z=0},
+			velocity = {x=0, y=math.random(-20,-15), z=0},
 			acceleration = {x=0, y=-1, z=0},
 			expirationtime = 2,
 			size = math.random(3,5),
@@ -77,10 +77,10 @@ local apply_weather = function(player, pos, weather_type)
 		if minetest.get_timeofday()*24000 >= 6000 and minetest.get_timeofday()*24000 <= 19000 then
 		player:set_sky({r=101, g=101, b=101}, "plain", nil, true)
 		end
-		for i=1,25 do
+		for i=1,48 do
 		minetest.add_particle({
 			pos = {x=pos.x+math.random(-10,10), y=pos.y+math.random(12,17), z=pos.z+math.random(-10,10)},
-			velocity = {x=0, y=math.random(-25,-30), z=0},
+			velocity = {x=0, y=math.random(-30,-25), z=0},
 			acceleration = {x=0, y=-1, z=0},
 			expirationtime = 2,
 			size = math.random(3,5),
@@ -158,6 +158,9 @@ minetest.register_globalstep(function(dtime)
 		--apply weather effect
 		if display_weather then
 			apply_weather(player, pos, weather.weather)
+			if minetest.get_timeofday()*24000 <= 6000 or minetest.get_timeofday()*24000 >= 19000 then
+				player:set_sky(nil, "regular", nil, true)
+			end
 		else
 			apply_weather(player, pos, "none")
 		end
