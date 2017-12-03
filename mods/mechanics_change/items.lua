@@ -202,11 +202,11 @@ core.register_entity(":__builtin:item", {
 				end
 			end
 
-			--if self.moving_state == is_moving and
-			--		self.slippery_state == is_slippery then
+			if self.moving_state == is_moving and
+					self.slippery_state == is_slippery then
 				-- Do not update anything until the moving state changes
-			--	return
-			--end
+				return
+			end
 			
 			
 			--------DON'T MOVE FORWARD IF BLAH
@@ -230,19 +230,4 @@ core.register_entity(":__builtin:item", {
 			end
 		end
 	end,
-
-	--[[
-	on_punch = function(self, hitter)
-		local inv = hitter:get_inventory()
-		if inv and self.itemstring ~= "" then
-			local left = inv:add_item("main", self.itemstring)
-			if left and not left:is_empty() then
-				self:set_item(left)
-				return
-			end
-		end
-		self.itemstring = ""
-		self.object:remove()
-	end,
-	]]--
 })

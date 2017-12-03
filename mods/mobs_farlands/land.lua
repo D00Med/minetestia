@@ -265,9 +265,121 @@ mobs:register_mob("mobs_m:elephant", {
 mobs:register_egg("mobs_m:elephant", "Elephant", "default_stone.png", 1)
 mobs:register_spawn("mobs_m:elephant", {"default:dirt_with_dry_grass",}, 20, 10, 7000, 20, 11000)
 
+mobs:register_mob("mobs_m:cow", {
+	type = "animal",
+	passive = false,
+	reach = 1.5,
+	damage = 2,
+	hp_min = 50,
+	hp_max = 60,
+	armor = 110,
+	collisionbox = {-0.5, 0, -0.5, 0.5, 1.5, 0.5},
+	visual = "mesh",
+	mesh = "cow.b3d",
+	textures = {
+		{"mobs_cow.png"},
+	},
+	blood_texture = "mobs_blood.png",
+	makes_footstep_sound = true,
+	walk_velocity = 1,
+	run_velocity = 1.5,
+	jump = 1,
+	stepheight = 1.2,
+	water_damage = 0,
+	lava_damage = 2,
+	light_damage = 0,
+	fall_damage = 1, 
+	fear_height = 2,
+	replace_rate = 10,
+	replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "farming:wheat_8"},
+	replace_with = "air",
+	follow = {"farming:wheat"},
+	view_range = 14,
+	drops = {
+		{name = "mobs:meat_raw", chance = 2, min = 2, max = 4},
+		{name = "mobs:leather", chance = 5, min = 1, max = 2},
+	},
+	animation = {
+		speed_normal = 15,
+		speed_run = 18,
+		walk_start = 60,
+		walk_end = 80,
+		stand_start = 1,
+		stand_end = 21,
+		run_start = 30,
+		run_end = 50,
+
+	},
+	on_rightclick = function(self, clicker)
+
+		if mobs:feed_tame(self, clicker, 8, true, true) then
+			return
+		end
+		
+		if self.driver and clicker == self.driver then
+		object_detach(self, clicker, {x=1, y=0, z=1})
+		elseif not self.driver and clicker:get_wielded_item():get_name() == "mobs:saddle" then
+		object_attach(self, clicker, {x=0, y=25, z=0}, true, {x=2, y=6, z=0})
+		end
+	
+		mobs:capture_mob(self, clicker, 0, 5, 50, false, nil)
+		
+		--milking code from mobs_animal by Tenplus1 (MIT) (see mobs_for detail)
+		if clicker:get_wielded_item():get_name() == "bucket:bucket_empty" then
+
+			--if self.gotten == true
+			if self.child == true then
+				return
+			end
+
+			if self.gotten == true then
+				minetest.chat_send_player(name,
+					"Cow already milked!")
+				return
+			end
+
+			local inv = clicker:get_inventory()
+
+			inv:remove_item("main", "bucket:bucket_empty")
+
+			if inv:room_for_item("main", {name = "mobs:bucket_milk"}) then
+				clicker:get_inventory():add_item("main", "mobs:bucket_milk")
+			else
+				local pos = self.object:getpos()
+				pos.y = pos.y + 0.5
+				minetest.add_item(pos, {name = "mobs:bucket_milk"})
+			end
+
+			self.gotten = true -- milked
+
+			return
+		end
+	end,
+	do_custom = function(self, dtime)
+	if self.driver then
+		self.state = "stand"
+		object_drive(self, dtime, {
+			speed = 6, 
+			decell = 0.6,
+			moving_anim = {x=50, y=70},
+			stand_anim = {x=1, y=1},
+			ignore_water = true
+		})
+		return false
+		end
+	return true
+	end,
+})
+
+
+mobs:register_egg("mobs_m:cow", "Cow", "default_obsidian.png", 1)
+mobs:register_spawn("mobs_m:cow", {"default:dirt_with_grass",}, 20, 10, 20000, 20, 11000)
+
 mobs:register_mob("mobs_m:horse", {
 	type = "animal",
 	passive = false,
+	reach = 1.5,
+	damage = 2,
 	hp_min = 50,
 	hp_max = 60,
 	armor = 120,
@@ -831,6 +943,99 @@ mobs:register_mob("mobs_m:swamp_lurker", {
 mobs:register_egg("mobs_m:swamp_lurker", "Swamp Lurker", "default_dirt.png", 1)
 mobs:register_spawn("mobs_m:swamp_lurker", {"default:dirt_with_swamp_grass",}, 5, 0, 7000, 20, 11000)
 
+mobs:register_mob("mobs_m:cavecrab", {
+	type = "animal",
+	passive = false,
+	reach = 1,
+	damage = 1,
+	attack_type = "dogfight",
+	hp_min = 10,
+	hp_max = 20,
+	armor = 110,
+	collisionbox = {-0.35,0,-0.35, 0.35,0.8,0.35},
+	visual = "mesh",
+	mesh = "cavecrab.b3d",
+	textures = {
+		{"mobs_cavecrab.png"},
+	},
+	blood_texture = "mobs_blood.png",
+	makes_footstep_sound = true,
+	walk_velocity = 1.5,
+	run_velocity = 2.5,
+	jump = 1,
+	water_damage = 0,
+	lava_damage = 2,
+	light_damage = 0,
+	fall_damage = 1,
+	view_range = 17,
+	drops = {
+		{name = "default:stone", chance = 2, min = 1, max = 1},
+	},
+	animation = {
+	--different stand animation from 1 to 15
+		normal_speed = 20,
+		run_speed = 25,
+		stand_start = 45,
+		stand_end = 65,
+		walk_start = 20,
+		walk_end = 40,
+		run_start = 20,
+		run_end = 40,
+		punch_start = 20,
+		punch_end = 40,
+	},
+})
+
+
+mobs:register_egg("mobs_m:cavecrab", "Cave Crab", "default_sand.png", 1)
+mobs:register_spawn("mobs_m:cavecrab", {"default:stone", "default:sand"}, 5, 0, 7000, 20, 11000)
+
+mobs:register_mob("mobs_m:crabspider", {
+	type = "monster",
+	passive = false,
+	reach = 1,
+	damage = 1,
+	attack_type = "dogfight",
+	hp_min = 10,
+	hp_max = 20,
+	armor = 110,
+	collisionbox = {-0.35,0,-0.35, 0.35,0.8,0.35},
+	visual = "mesh",
+	mesh = "crabspider.b3d",
+	textures = {
+		{"mobs_crabspider.png"},
+	},
+	blood_texture = "mobs_blood.png",
+	makes_footstep_sound = true,
+	walk_velocity = 1.5,
+	run_velocity = 2,
+	jump = 1,
+	water_damage = 2,
+	lava_damage = 2,
+	light_damage = 0,
+	fall_damage = 1,
+	view_range = 17,
+	--drops = {
+	--	{name = "default:dirt", chance = 2, min = 1, max = 1},
+	--},
+	animation = {
+		normal_speed = 20,
+		run_speed = 25,
+		stand_start = 1,
+		stand_end = 13,
+		walk_start = 20,
+		walk_end = 40,
+		run_start = 20,
+		run_end = 40,
+		punch_start = 45,
+		punch_end = 65,
+	},
+})
+
+
+mobs:register_egg("mobs_m:crabspider", "Crab Spider", "default_obsidian.png", 1)
+mobs:register_spawn("mobs_m:crabspider", {"default:desert_sand", "default:silver_sand"}, 5, 0, 7000, 20, 11000)
+
 mobs:register_mob("mobs_m:beetle", {
 	type = "monster",
 	passive = false,
@@ -1363,6 +1568,14 @@ minetest.register_craft({
 	type  =  "cooking",
 	recipe  = "mobs:egg",
 	output = "mobs:chicken_egg_fried",
+})
+
+--milk
+minetest.register_craftitem(":mobs:bucket_milk", {
+	description = "Bucket of Milk",
+	inventory_image = "mobs_bucket_milk.png",
+	stack_max = 1,
+	on_use = minetest.item_eat(5, 'bucket:bucket_empty'),
 })
 
 -- raw chicken
