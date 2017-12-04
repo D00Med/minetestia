@@ -77,7 +77,7 @@ core.register_entity(":__builtin:item", {
 		})
 	end,
 	--allow player to pick up single item stack
-	on_rightclick = function(self, clicker)
+	on_punch = function(self, clicker)
 		--self.object:remove()
 		if self.holder == nil and self.allow_pickup == true then
 			self.holder = clicker
