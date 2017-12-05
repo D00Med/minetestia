@@ -147,16 +147,6 @@ core.register_entity(":__builtin:item", {
 			end
 			
 			self.oldmb = self.holder:get_player_control().RMB
-			
-
-
-
-
-
-
-
-
-
 		else --no player holding
 			local pos = self.object:get_pos()
 			local node = core.get_node_or_nil({
@@ -215,7 +205,7 @@ core.register_entity(":__builtin:item", {
 			self.slippery_state = is_slippery
 	
 			if is_liquid then
-				self.object:set_acceleration({x = 0, y = 5, z = 0})
+				self.object:set_acceleration({x = 0, y = 1, z = 0})
 
 			elseif is_moving then
 				self.object:set_acceleration({x = 0, y = -gravity, z = 0})
