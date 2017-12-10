@@ -82,11 +82,12 @@ core.register_entity(":__builtin:item", {
 		if self.holder == nil and self.allow_pickup == true then
 			self.holder = clicker
 			self.oldmb = nil
-		else
-			self.holder = nil
-			self.oldmb = nil
-			self.object:set_acceleration({x = 0, y = -gravity, z = 0})
 		end
+	end,
+	on_rightclick = function(self, clicker)
+		self.holder = nil
+		self.oldmb = nil
+		self.object:set_acceleration({x = 0, y = -gravity, z = 0})
 	end,
 	on_activate = function(self, staticdata, dtime_s)
 		if string.sub(staticdata, 1, string.len("return")) == "return" then
