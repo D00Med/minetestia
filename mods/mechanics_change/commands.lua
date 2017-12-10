@@ -1,4 +1,4 @@
-minetest.register_chatcommand("create_in_front_of_fayce", {
+minetest.register_chatcommand("create_at_front", {
 	params = "<text>",
 	description = "Send text to chat",
 	privs = {},
