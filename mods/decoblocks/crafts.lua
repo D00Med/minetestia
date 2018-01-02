@@ -1,4 +1,3 @@
-
 minetest.register_craft({
 	output = 'decoblocks:vase',
 	recipe = {

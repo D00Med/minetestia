@@ -1222,7 +1222,6 @@ minetest.register_node("decoblocks:bear_rug", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-
 minetest.register_node("decoblocks:polar_bear_rug", {
 	description = "Polar Bear Rug",
 	drawtype = "mesh",

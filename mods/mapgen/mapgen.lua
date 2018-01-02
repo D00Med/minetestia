@@ -1325,7 +1325,6 @@
 		humidity_point = 50,
 	})
 
-
 --
 -- Register decorations
 --
